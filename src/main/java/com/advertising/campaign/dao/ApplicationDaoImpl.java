@@ -1,6 +1,5 @@
 package com.advertising.campaign.dao;
 
-import com.advertising.campaign.models.Campaing;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,13 +27,12 @@ public class ApplicationDaoImpl implements ApplicationDao {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
             String sql = "CREATE TABLE CAMPAINGS " +
-                    "(id INTEGER NOT NULL, " +
+                    "(id INTEGER PRIMARY KEY, " +
                     " name VARCHAR(255) NOT NULL, " +
                     " status INTEGER NOT NULL, " +
                     " start_date TIMESTAMP NOT NULL, " +
                     " end_date TIMESTAMP NOT NULL, " +
-                    " [ads] INTEGER NOT NULL, " +
-                    " PRIMARY KEY (id))";
+                    " [ads] INTEGER NOT NULL)";
             System.out.println("sql = " + sql);
             stmt.execute(sql);
             stmt.close();
@@ -53,12 +51,11 @@ public class ApplicationDaoImpl implements ApplicationDao {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
             String sql = "CREATE TABLE ADS " +
-                    "(id INTEGER NOT NULL, " +
+                    "(id INTEGER PRIMARY KEY, " +
                     " name VARCHAR(255) NOT NULL, " +
                     " status INTEGER NOT NULL, " +
                     " [platforms] INTEGER NOT NULL, " +
-                    " assert_url VARCHAR(255) NOT NULL, " +
-                    " PRIMARY KEY (id))";
+                    " assert_url VARCHAR(255) NOT NULL)";
             System.out.println("sql = " + sql);
             stmt.execute(sql);
             stmt.close();

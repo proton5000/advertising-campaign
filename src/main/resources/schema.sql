@@ -5,7 +5,7 @@ create table campaings {
     start_date timestamp,
     end_date timestamp,
     ads integer
-}
+};
 
 create table ads {
     id integer not null,
@@ -13,4 +13,4 @@ create table ads {
     status integer not null,
     platforms integer,
     asset_url varchar(255) not null
-}
+};

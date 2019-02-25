@@ -1,0 +1,57 @@
+package com.advertising.campaign.controllers;
+
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class ApplicationController {
+
+    @RequestMapping(value = "/summaries", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getSummaries() {
+        return "getSummaries";
+    }
+
+    @RequestMapping(value = "/campaign/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getCampaignById(@PathVariable("id") String id) {
+        return "getCampaignById " + id;
+    }
+
+    @RequestMapping(value = "/campaign", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String createCampaign() {
+        return "createCampaign";
+    }
+
+    @RequestMapping(value = "/campaign/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String updateCampaignById(@PathVariable("id") String id) {
+        return "updateCampaign " + id;
+    }
+
+    @RequestMapping(value = "/campaign/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteCampaignById(@PathVariable("id") String id) {
+        return "deleteCampaignById " + id;
+    }
+
+    @RequestMapping(value = "/ad/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getAdById(@PathVariable("id") String id) {
+        return "getAdById " + id;
+    }
+
+    @RequestMapping(value = "/ad", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String createAd() {
+        return "createAd";
+    }
+
+    @RequestMapping(value = "/ad/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String updateAdById(@PathVariable("id") String id) {
+        return "updateAdById " + id;
+    }
+
+    @RequestMapping(value = "/ad/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteAdById(@PathVariable("id") String id) {
+        return "deleteAdById " + id;
+    }
+
+}

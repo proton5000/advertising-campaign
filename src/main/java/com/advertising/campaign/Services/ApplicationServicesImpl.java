@@ -9,8 +9,8 @@ public class ApplicationServicesImpl implements ApplicationServices {
     private ApplicationDao applicationDao;
 
     @Override
-    public void createCampaingTable() {
-        applicationDao.createCampaingTable();
+    public void createCampaingsTable() {
+        applicationDao.createCampaingsTable();
     }
 
     public void createAdsTable() {

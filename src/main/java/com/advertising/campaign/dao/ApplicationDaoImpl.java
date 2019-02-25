@@ -13,15 +13,15 @@ import java.sql.Statement;
 @Transactional
 public class ApplicationDaoImpl implements ApplicationDao {
 
-    static final String JDBC_DRIVER = "org.h2.Driver";
-    static final String DB_URL = "jdbc:h2:~/adcampaings";
+    private static final String JDBC_DRIVER = "org.h2.Driver";
+    private static final String DB_URL = "jdbc:h2:~/adcampaings";
 
-    static final String USER = "sa";
-    static final String PASS = "";
+    private static final String USER = "sa";
+    private static final String PASS = "";
 
-    public void createCampaingTable() {
-        Connection conn = null;
-        Statement stmt = null;
+    public void createCampaingsTable() {
+        Connection conn;
+        Statement stmt;
 
         try {
             Class.forName(JDBC_DRIVER).newInstance();
@@ -45,8 +45,8 @@ public class ApplicationDaoImpl implements ApplicationDao {
     }
 
     public void createAdTable() {
-        Connection conn = null;
-        Statement stmt = null;
+        Connection conn;
+        Statement stmt;
 
         try {
             Class.forName(JDBC_DRIVER).newInstance();

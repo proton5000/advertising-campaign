@@ -12,7 +12,7 @@ public class CampaignApplication {
 		SpringApplication.run(CampaignApplication.class, args);
 
 		ApplicationServices applicationServices = new ApplicationServicesImpl();
-		applicationServices.createCampaingTable();
+		applicationServices.createCampaingsTable();
 		applicationServices.createAdsTable();
 	}
 

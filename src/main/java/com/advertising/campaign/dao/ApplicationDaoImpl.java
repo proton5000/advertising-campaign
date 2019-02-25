@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 @Repository
-@Transactional
 public class ApplicationDaoImpl implements ApplicationDao {
 
     private static final String JDBC_DRIVER = "org.h2.Driver";

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.sql.SQLException;
 
 @RestController
-public class ApplicationController {
+public class ApplicationController extends ExceptionHandlerController {
 
     @Autowired
     private ApplicationServices applicationServices;

@@ -1,7 +1,8 @@
 package com.advertising.campaign.Services;
 
-public interface ApplicationServices {
-    void createCampaingsTable();
+import com.advertising.campaign.models.Ad;
+import java.sql.SQLException;
 
-    void createAdsTable();
+public interface ApplicationServices {
+    Ad getCampaingById(Integer id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException;
 }

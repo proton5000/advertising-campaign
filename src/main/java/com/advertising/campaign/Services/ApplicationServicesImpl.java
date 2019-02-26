@@ -1,8 +1,11 @@
 package com.advertising.campaign.Services;
 
 import com.advertising.campaign.dao.ApplicationDao;
+import com.advertising.campaign.models.Ad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.sql.SQLException;
 
 @Service
 public class ApplicationServicesImpl implements ApplicationServices {
@@ -11,12 +14,7 @@ public class ApplicationServicesImpl implements ApplicationServices {
     private ApplicationDao applicationDao;
 
     @Override
-    public void createCampaingsTable() {
-        applicationDao.createCampaingsTable();
-    }
-
-    @Override
-    public void createAdsTable() {
-        applicationDao.createAdTable();
+    public Ad getCampaingById(Integer id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+        return applicationDao.getCampaingById(id);
     }
 }

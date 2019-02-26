@@ -1,7 +1,9 @@
 package com.advertising.campaign.dao;
 
-public interface ApplicationDao {
-    void createCampaingsTable();
+import com.advertising.campaign.models.Ad;
 
-    void createAdTable();
+import java.sql.SQLException;
+
+public interface ApplicationDao {
+    Ad getCampaingById(Integer id) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException;
 }

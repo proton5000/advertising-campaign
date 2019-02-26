@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Array;
 
 @Builder
 @Setter
@@ -12,14 +13,17 @@ import javax.persistence.*;
 public class Ad {
 
     @GeneratedValue(strategy = GenerationType.TABLE)
-    private Integer id;
+    private int id;
 
     private String name;
 
-    private Integer status;
+    private int status;
 
-    private Integer[] platforms;
+    private int[] platforms;
 
     private String asset_url;
 
+    public Ad(int id, String name, int status, Array platforms, String asset_url) {
+
+    }
 }

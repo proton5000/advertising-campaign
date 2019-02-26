@@ -1,11 +1,11 @@
 package com.advertising.campaign.controllers;
 
 import com.advertising.campaign.Services.ApplicationServices;
-import com.advertising.campaign.models.Campaing;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.advertising.campaign.models.Ad;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,11 +45,9 @@ public class ApplicationController {
     }
 
     @RequestMapping(value = "/ad/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getAdById(@PathVariable("id") Integer id) throws JsonProcessingException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+    public ResponseEntity<Ad> getAdById(@PathVariable("id") Integer id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
 
-        ObjectMapper mapper = new ObjectMapper();
-
-        return mapper.writeValueAsString(applicationServices.getCampaingById(id));
+        return new ResponseEntity<>(applicationServices.getCampaingById(id), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/ad", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

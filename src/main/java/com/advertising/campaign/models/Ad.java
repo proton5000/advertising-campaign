@@ -11,6 +11,9 @@ import javax.persistence.*;
 @Getter
 public class Ad {
 
+    public Ad(int id, String name, int status, int[] platforms, String asset_url) {
+    }
+
     @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
 
@@ -21,8 +24,4 @@ public class Ad {
     private int[] platforms;
 
     private String asset_url;
-
-    public Ad(int id, String name, int status, int[] platforms, String asset_url) {
-
-    }
 }

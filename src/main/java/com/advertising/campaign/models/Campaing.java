@@ -12,17 +12,20 @@ import java.sql.Timestamp;
 @Getter
 public class Campaing {
 
+    public Campaing(int id, String name, int status, Timestamp start_date, Timestamp end_date, int[] arrayAds) {
+
+    }
+
     @GeneratedValue(strategy = GenerationType.TABLE)
-    private Integer id;
+    private int id;
 
     private String name;
 
-    private Integer status;
+    private int status;
 
     private Timestamp start_date;
 
     private Timestamp end_date;
 
     private int[] ads;
-
 }

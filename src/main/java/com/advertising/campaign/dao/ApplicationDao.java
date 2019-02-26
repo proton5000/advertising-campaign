@@ -1,9 +1,12 @@
 package com.advertising.campaign.dao;
 
 import com.advertising.campaign.models.Ad;
+import com.advertising.campaign.models.Campaing;
 
 import java.sql.SQLException;
 
 public interface ApplicationDao {
-    Ad getCampaingById(Integer id) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException;
+    Ad getAdById(Integer id) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException;
+
+    Campaing getCampaingById(String id) throws SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException;
 }

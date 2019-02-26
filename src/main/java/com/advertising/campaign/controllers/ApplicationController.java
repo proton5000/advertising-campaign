@@ -2,6 +2,7 @@ package com.advertising.campaign.controllers;
 
 import com.advertising.campaign.Services.ApplicationServices;
 import com.advertising.campaign.models.Ad;
+import com.advertising.campaign.models.Campaing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,14 +41,13 @@ public class ApplicationController {
     }
 
     @RequestMapping(value = "/campaign/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String deleteCampaignById(@PathVariable("id") String id) {
-        return "deleteCampaignById " + id;
+    public ResponseEntity<Campaing> deleteCampaignById(@PathVariable("id") String id) {
+        return new ResponseEntity<>(applicationServices.getCampaingById(id), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/ad/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Ad> getAdById(@PathVariable("id") Integer id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
-
-        return new ResponseEntity<>(applicationServices.getCampaingById(id), HttpStatus.OK);
+        return new ResponseEntity<>(applicationServices.getAdById(id), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/ad", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

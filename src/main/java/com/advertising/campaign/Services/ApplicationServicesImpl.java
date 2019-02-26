@@ -23,4 +23,14 @@ public class ApplicationServicesImpl implements ApplicationServices {
     public Campaing getCampaingById(Integer id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         return applicationDao.getCampaingById(id);
     }
+
+    @Override
+    public void deleteAdById(Integer id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+        applicationDao.deleteAdById(id);
+    }
+
+    @Override
+    public void deleteCampaignById(Integer id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+        applicationDao.deleteCampaignById(id);
+    }
 }

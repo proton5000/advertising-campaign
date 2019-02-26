@@ -9,4 +9,8 @@ public interface ApplicationDao {
     Ad getAdById(Integer id) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException;
 
     Campaing getCampaingById(Integer id) throws SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException;
+
+    void deleteAdById(Integer id) throws ClassNotFoundException, SQLException, IllegalAccessException, InstantiationException;
+
+    void deleteCampaignById(Integer id) throws ClassNotFoundException, SQLException, IllegalAccessException, InstantiationException;
 }

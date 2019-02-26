@@ -49,4 +49,28 @@ public class ApplicationDaoImpl implements ApplicationDao {
         return new Campaing(resultSet.getInt("id"), resultSet.getString("name"),
                 resultSet.getInt("status"), resultSet.getTimestamp("start_date"), resultSet.getTimestamp("end_date"), arrayAds);
     }
+
+    @Override
+    public void deleteAdById(Integer id) throws ClassNotFoundException, SQLException, IllegalAccessException, InstantiationException {
+        Connection conn;
+        Statement stmt;
+
+        Class.forName(JDBC_DRIVER).newInstance();
+        conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        stmt = conn.createStatement();
+        String sql = "DELETE FROM ADS WHERE id = " + id;
+        stmt.execute(sql);
+    }
+
+    @Override
+    public void deleteCampaignById(Integer id) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
+        Connection conn;
+        Statement stmt;
+
+        Class.forName(JDBC_DRIVER).newInstance();
+        conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        stmt = conn.createStatement();
+        String sql = "DELETE FROM CAMPAINGS WHERE id = " + id;
+        stmt.execute(sql);
+    }
 }

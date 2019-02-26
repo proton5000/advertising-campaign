@@ -3,6 +3,7 @@ package com.advertising.campaign.controllers;
 import com.advertising.campaign.Services.ApplicationServices;
 import com.advertising.campaign.models.Ad;
 import com.advertising.campaign.models.Campaing;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,14 +21,17 @@ public class ApplicationController extends ExceptionHandlerController {
     @Autowired
     private ApplicationServices applicationServices;
 
+    @Autowired
+    private Gson gson;
+
     @RequestMapping(value = "/summaries", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getSummaries() {
         return "getSummaries";
     }
 
     @RequestMapping(value = "/campaign/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getCampaignById(@PathVariable("id") String id) {
-        return "getCampaignById " + id;
+    public  ResponseEntity<Campaing> getCampaignById(@PathVariable("id") Integer id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+        return new ResponseEntity<>(applicationServices.getCampaingById(id), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/campaign", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -41,8 +45,9 @@ public class ApplicationController extends ExceptionHandlerController {
     }
 
     @RequestMapping(value = "/campaign/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Campaing> deleteCampaignById(@PathVariable("id") Integer id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
-        return new ResponseEntity<>(applicationServices.getCampaingById(id), HttpStatus.OK);
+    public ResponseEntity<String> deleteCampaignById(@PathVariable("id") Integer id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+        applicationServices.deleteCampaignById(id);
+        return ResponseEntity.ok(gson.toJson("The Campaign with id = " + id + " was successfully removed"));
     }
 
     @RequestMapping(value = "/ad/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -61,8 +66,9 @@ public class ApplicationController extends ExceptionHandlerController {
     }
 
     @RequestMapping(value = "/ad/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String deleteAdById(@PathVariable("id") String id) {
-        return "deleteAdById " + id;
+    public ResponseEntity<String> deleteAdById(@PathVariable("id") Integer id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+        applicationServices.deleteAdById(id);
+        return ResponseEntity.ok(gson.toJson("The AD with id = " + id + " was successfully removed"));
     }
 
 }

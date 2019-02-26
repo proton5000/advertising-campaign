@@ -3,7 +3,6 @@ package com.advertising.campaign.Services;
 import com.advertising.campaign.dao.ApplicationDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ApplicationServicesImpl implements ApplicationServices {
@@ -16,6 +15,7 @@ public class ApplicationServicesImpl implements ApplicationServices {
         applicationDao.createCampaingsTable();
     }
 
+    @Override
     public void createAdsTable() {
         applicationDao.createAdTable();
     }

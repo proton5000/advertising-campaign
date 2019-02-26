@@ -22,6 +22,6 @@ public class Ad {
 
     private int[] platforms;
 
-    private int[] asset_url;
+    private String asset_url;
 
 }

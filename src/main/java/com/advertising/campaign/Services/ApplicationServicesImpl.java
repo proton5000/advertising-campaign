@@ -20,7 +20,7 @@ public class ApplicationServicesImpl implements ApplicationServices {
     }
 
     @Override
-    public Campaing getCampaingById(String id) {
+    public Campaing getCampaingById(Integer id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         return applicationDao.getCampaingById(id);
     }
 }

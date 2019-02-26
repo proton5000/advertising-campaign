@@ -41,7 +41,7 @@ public class ApplicationController extends ExceptionHandlerController {
     }
 
     @RequestMapping(value = "/campaign/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Campaing> deleteCampaignById(@PathVariable("id") String id) {
+    public ResponseEntity<Campaing> deleteCampaignById(@PathVariable("id") Integer id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         return new ResponseEntity<>(applicationServices.getCampaingById(id), HttpStatus.OK);
     }
 

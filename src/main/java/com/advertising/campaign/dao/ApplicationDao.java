@@ -8,5 +8,5 @@ import java.sql.SQLException;
 public interface ApplicationDao {
     Ad getAdById(Integer id) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException;
 
-    Campaing getCampaingById(String id) throws SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException;
+    Campaing getCampaingById(Integer id) throws SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException;
 }

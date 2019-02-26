@@ -33,7 +33,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
     }
 
     @Override
-    public Campaing getCampaingById(String id) throws SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException {
+    public Campaing getCampaingById(Integer id) throws SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException {
         Connection conn;
         Statement stmt;
 

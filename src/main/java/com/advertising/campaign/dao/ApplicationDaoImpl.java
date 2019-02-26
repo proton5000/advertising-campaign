@@ -4,7 +4,6 @@ import com.advertising.campaign.models.Ad;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.util.Properties;
 
 @Repository
 public class ApplicationDaoImpl implements ApplicationDao {
@@ -24,14 +23,11 @@ public class ApplicationDaoImpl implements ApplicationDao {
         stmt = conn.createStatement();
         String sql = "SELECT * FROM ADS WHERE id = " + id;
         ResultSet resultSet = stmt.executeQuery(sql);
-//        stmt.close();
-//        conn.close();
 
+        Array platforms = resultSet.getArray("platforms");
+        int[] arrayPlatforms = (int[]) platforms.getArray();
 
-
-        Ad ad = new Ad(resultSet.getInt("id"), resultSet.getString("name"),
-                resultSet.getInt("status"), ((int[]) resultSet.getArray("platforms").getArray()), resultSet.getString("asset_url"));
-
-        return ad;
+        return new Ad(resultSet.getInt("id"), resultSet.getString("name"),
+                resultSet.getInt("status"), arrayPlatforms, resultSet.getString("asset_url"));
     }
 }

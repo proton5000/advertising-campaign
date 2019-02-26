@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Array;
 
 @Builder
 @Setter
@@ -23,7 +22,7 @@ public class Ad {
 
     private String asset_url;
 
-    public Ad(int id, String name, int status, Array platforms, String asset_url) {
+    public Ad(int id, String name, int status, int[] platforms, String asset_url) {
 
     }
 }

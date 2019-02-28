@@ -22,7 +22,7 @@ public class Ad {
     public Ad() {
     }
 
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;

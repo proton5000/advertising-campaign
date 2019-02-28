@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -26,6 +27,11 @@ public class ApplicationDaoImpl implements ApplicationDao {
         Class.forName(JDBC_DRIVER).newInstance();
         conn = DriverManager.getConnection(DB_URL, USER, PASS);
         return conn.createStatement();
+    }
+
+    private Connection getConnection() throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
+        Class.forName(JDBC_DRIVER).newInstance();
+        return DriverManager.getConnection(DB_URL, USER, PASS);
     }
 
     @Override
@@ -161,18 +167,28 @@ public class ApplicationDaoImpl implements ApplicationDao {
     @Override
     public Ad createAd(AdCreate adCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
 
-        String sql = "INSERT INTO ADS(NAME, STATUS, PLATFORMS, ASSERT_URL) " +
-                "VALUES(" + adCreate.getName() + ", " + adCreate.getStatus() + ", " +
-                "" + Arrays.toString(adCreate.getPlatforms()) + ", " +
-                "" + adCreate.getAsset_url() + ")";
+        String sql = "INSERT INTO ADS(NAME, STATUS, PLATFORMS, ASSERT_URL) VALUES (?, ?, ?, ?)";
 
-        ResultSet resultSet = getStatement().executeQuery(sql);
+        Connection conn = getConnection();
+        PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        preparedStatement.setString(1, adCreate.getName());
+        preparedStatement.setInt(2, adCreate.getStatus());
+        preparedStatement.setArray(3, conn.createArrayOf("INTEGER", Collections.singletonList(adCreate.getPlatforms()).toArray()));
+        preparedStatement.setString(4, adCreate.getAsset_url());
+
+        preparedStatement.execute();
+        ResultSet resultSet = preparedStatement.getGeneratedKeys();
+        resultSet.next();
 
         Array platforms = resultSet.getArray("PLATFORMS");
-        int[] platformsArray = (int[])platforms.getArray();
+        Integer[] platformsArray = (Integer[])platforms.getArray();
+        int[] platformsInt = new int[platformsArray.length];
+        for (int i = 0; i < platformsArray.length; i++) {
+            platformsInt[i] = platformsArray[i];
+        }
 
         return new Ad(resultSet.getInt("ID"), resultSet.getString("NAME"),
-                resultSet.getInt("STATUS"), platformsArray,
+                resultSet.getInt("STATUS"), platformsInt,
                 resultSet.getString("ASSERT_URL"));
     }
 }

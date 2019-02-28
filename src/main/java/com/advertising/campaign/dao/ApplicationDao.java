@@ -2,6 +2,7 @@ package com.advertising.campaign.dao;
 
 import com.advertising.campaign.models.Ad;
 import com.advertising.campaign.models.Campaing;
+import com.advertising.campaign.models.request.AdCreate;
 import com.advertising.campaign.models.request.CampaingCreate;
 import com.advertising.campaign.models.response.CampaingMiniResponse;
 
@@ -20,4 +21,8 @@ public interface ApplicationDao {
     List<CampaingMiniResponse> getSummaries(String orderBy, Integer skip) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException;
 
     Campaing createCampaign(CampaingCreate campaingCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException;
+
+    Campaing updateCampaignById(Integer id, CampaingCreate campaingCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException;
+
+    Ad updateAdById(Integer id, AdCreate adCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException;
 }

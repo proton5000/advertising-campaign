@@ -3,6 +3,7 @@ package com.advertising.campaign.Services;
 import com.advertising.campaign.dao.ApplicationDao;
 import com.advertising.campaign.models.Ad;
 import com.advertising.campaign.models.Campaing;
+import com.advertising.campaign.models.request.AdCreate;
 import com.advertising.campaign.models.request.CampaingCreate;
 import com.advertising.campaign.models.response.CampaingMiniResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,17 @@ public class ApplicationServicesImpl implements ApplicationServices {
     }
 
     @Override
-    public Campaing createCampaign(CampaingCreate campaingCreate) {
+    public Campaing createCampaign(CampaingCreate campaingCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         return applicationDao.createCampaign(campaingCreate);
+    }
+
+    @Override
+    public Campaing updateCampaignById(Integer id, CampaingCreate campaingCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+        return applicationDao.updateCampaignById(id, campaingCreate);
+    }
+
+    @Override
+    public Ad updateAdById(Integer id, AdCreate adCreate) {
+        return applicationDao.updateAdById(id, adCreate);
     }
 }

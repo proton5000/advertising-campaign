@@ -2,6 +2,7 @@ package com.advertising.campaign.Services;
 
 import com.advertising.campaign.models.Ad;
 import com.advertising.campaign.models.Campaing;
+import com.advertising.campaign.models.request.AdCreate;
 import com.advertising.campaign.models.request.CampaingCreate;
 import com.advertising.campaign.models.response.CampaingMiniResponse;
 
@@ -19,5 +20,9 @@ public interface ApplicationServices {
 
     List<CampaingMiniResponse> getSummaries(String orderBy, Integer skip) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException;
 
-    Campaing createCampaign(CampaingCreate campaingCreate);
+    Campaing createCampaign(CampaingCreate campaingCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException;
+
+    Campaing updateCampaignById(Integer id, CampaingCreate campaingCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException;
+
+    Ad updateAdById(Integer id, AdCreate adCreate);
 }

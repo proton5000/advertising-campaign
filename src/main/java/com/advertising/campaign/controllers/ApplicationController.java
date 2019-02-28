@@ -3,17 +3,16 @@ package com.advertising.campaign.controllers;
 import com.advertising.campaign.Services.ApplicationServices;
 import com.advertising.campaign.models.Ad;
 import com.advertising.campaign.models.Campaing;
+import com.advertising.campaign.models.response.CampaingMiniResponse;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @RestController
 public class ApplicationController extends ExceptionHandlerController {
@@ -25,8 +24,12 @@ public class ApplicationController extends ExceptionHandlerController {
     private Gson gson;
 
     @RequestMapping(value = "/summaries", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getSummaries() {
-        return "getSummaries";
+    public ResponseEntity<List<CampaingMiniResponse>> getSummaries(
+            @RequestParam(value = "skip", required = false, defaultValue = "0") Integer skip,
+            @RequestParam(value = "orderBy", required = false, defaultValue = "name desc") String orderBy
+    ) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+
+        return new ResponseEntity<>(applicationServices.getSummaries(orderBy, skip), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/campaign/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

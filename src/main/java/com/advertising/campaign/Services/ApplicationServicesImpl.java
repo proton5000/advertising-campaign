@@ -3,10 +3,12 @@ package com.advertising.campaign.Services;
 import com.advertising.campaign.dao.ApplicationDao;
 import com.advertising.campaign.models.Ad;
 import com.advertising.campaign.models.Campaing;
+import com.advertising.campaign.models.response.CampaingMiniResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Service
 public class ApplicationServicesImpl implements ApplicationServices {
@@ -32,5 +34,10 @@ public class ApplicationServicesImpl implements ApplicationServices {
     @Override
     public void deleteCampaignById(Integer id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         applicationDao.deleteCampaignById(id);
+    }
+
+    @Override
+    public List<CampaingMiniResponse> getSummaries(String orderBy, Integer skip) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+        return applicationDao.getSummaries(orderBy, skip);
     }
 }

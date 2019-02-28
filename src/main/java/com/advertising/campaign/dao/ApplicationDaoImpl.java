@@ -2,9 +2,12 @@ package com.advertising.campaign.dao;
 
 import com.advertising.campaign.models.Ad;
 import com.advertising.campaign.models.Campaing;
+import com.advertising.campaign.models.response.CampaingMiniResponse;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class ApplicationDaoImpl implements ApplicationDao {
@@ -15,62 +18,78 @@ public class ApplicationDaoImpl implements ApplicationDao {
     private static final String USER = "sa";
     private static final String PASS = "";
 
-    public Ad getAdById(Integer id) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
+    private Statement getStatement() throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
         Connection conn;
-        Statement stmt;
-
         Class.forName(JDBC_DRIVER).newInstance();
         conn = DriverManager.getConnection(DB_URL, USER, PASS);
-        stmt = conn.createStatement();
-        String sql = "SELECT * FROM ADS WHERE id = " + id;
-        ResultSet resultSet = stmt.executeQuery(sql);
+        return conn.createStatement();
+    }
 
-        Array platforms = resultSet.getArray("platforms");
-        int[] arrayPlatforms = (int[]) platforms.getArray();
+    @Override
+    public Ad getAdById(Integer id) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
 
-        return new Ad(resultSet.getInt("id"), resultSet.getString("name"),
-                resultSet.getInt("status"), arrayPlatforms, resultSet.getString("asset_url"));
+        String sql = "SELECT * FROM ADS WHERE ID = " + id;
+        ResultSet resultSet = getStatement().executeQuery(sql);
+        resultSet.next();
+//        Array platforms = resultSet.getArray("PLATFORMS");
+//        int[] arrayPlatforms = (int[]) platforms.getArray();
+
+        return new Ad(resultSet.getInt("ID"), resultSet.getString("NAME"),
+                resultSet.getInt("STATUS"), null, resultSet.getString("ASSERT_URL"));
     }
 
     @Override
     public Campaing getCampaingById(Integer id) throws SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException {
-        Connection conn;
-        Statement stmt;
 
-        Class.forName(JDBC_DRIVER).newInstance();
-        conn = DriverManager.getConnection(DB_URL, USER, PASS);
-        stmt = conn.createStatement();
-        String sql = "SELECT * FROM CAMPAINGS WHERE id = " + id;
-        ResultSet resultSet = stmt.executeQuery(sql);
+        String sql = "SELECT * FROM CAMPAINGS WHERE ID = " + id;
+        ResultSet resultSet = getStatement().executeQuery(sql);
+        resultSet.next();
+//        Array ads = resultSet.getArray("ADS");
+//        int[] arrayAds = (int[])ads.getArray();
 
-        Array ads = resultSet.getArray("ads");
-        int[] arrayAds = (int[])ads.getArray();
-
-        return new Campaing(resultSet.getInt("id"), resultSet.getString("name"),
-                resultSet.getInt("status"), resultSet.getTimestamp("start_date"), resultSet.getTimestamp("end_date"), arrayAds);
+        return new Campaing(resultSet.getInt("ID"), resultSet.getString("NAME"),
+                resultSet.getInt("STATUS"), resultSet.getTimestamp("START_DATE"), resultSet.getTimestamp("END_DATE"), null);
     }
 
     @Override
     public void deleteAdById(Integer id) throws ClassNotFoundException, SQLException, IllegalAccessException, InstantiationException {
-        Connection conn;
-        Statement stmt;
-
-        Class.forName(JDBC_DRIVER).newInstance();
-        conn = DriverManager.getConnection(DB_URL, USER, PASS);
-        stmt = conn.createStatement();
-        String sql = "DELETE FROM ADS WHERE id = " + id;
-        stmt.execute(sql);
+        String sql = "DELETE FROM ADS WHERE ID = " + id;
+        getStatement().execute(sql);
     }
 
     @Override
     public void deleteCampaignById(Integer id) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
-        Connection conn;
-        Statement stmt;
+        String sql = "DELETE FROM CAMPAINGS WHERE ID = " + id;
+        getStatement().execute(sql);
+    }
 
-        Class.forName(JDBC_DRIVER).newInstance();
-        conn = DriverManager.getConnection(DB_URL, USER, PASS);
-        stmt = conn.createStatement();
-        String sql = "DELETE FROM CAMPAINGS WHERE id = " + id;
-        stmt.execute(sql);
+    @Override
+    public List<CampaingMiniResponse> getSummaries(String orderBy, Integer skip) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
+
+        String sql = "SELECT ID, NAME, STATUS, ADS FROM CAMPAINGS";
+
+        if (!orderBy.isEmpty() && orderBy.trim().length() != 0) {
+            sql += " ORDER BY " + orderBy;
+        }
+
+        sql += " WHERE ROWNUM BETWEEN "+ skip +" AND " + skip + 5;
+
+        ResultSet resultSet = getStatement().executeQuery(sql);
+
+        List<CampaingMiniResponse> campaingMiniResponseList = new ArrayList<>();
+
+        while (resultSet.next()) {
+
+            Array ads = resultSet.getArray("ADS");
+            Ad[] adsArray = (Ad[])ads.getArray();
+
+            CampaingMiniResponse campaingMiniResponse =
+                    new CampaingMiniResponse(resultSet.getInt("ID"),
+                            resultSet.getString("NAME"), resultSet.getInt("STATUS"), adsArray.length);
+
+            campaingMiniResponseList.add(campaingMiniResponse);
+        }
+
+        return campaingMiniResponseList;
     }
 }

@@ -24,5 +24,7 @@ public interface ApplicationServices {
 
     Campaing updateCampaignById(Integer id, CampaingCreate campaingCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException;
 
-    Ad updateAdById(Integer id, AdCreate adCreate);
+    Ad updateAdById(Integer id, AdCreate adCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException;
+
+    Ad createAd(AdCreate adCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException;
 }

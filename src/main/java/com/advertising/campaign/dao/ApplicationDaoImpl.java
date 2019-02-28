@@ -104,9 +104,18 @@ public class ApplicationDaoImpl implements ApplicationDao {
                 ""+campaingCreate.getStart_date()+", "+campaingCreate.getEnd_date()+", "+ Arrays.toString(campaingCreate.getAds()) +")";
         ResultSet resultSet = getStatement().executeQuery(sql);
 
+        Array ads = resultSet.getArray("ADS");
+        Ad[] adsArray = (Ad[])ads.getArray();
+
+        int[] adsIds = new int[adsArray.length];
+
+        for (int i = 0; i < adsArray.length; i++) {
+            adsIds[i] = adsArray[i].getId();
+        }
+
         return new Campaing(resultSet.getInt("ID"), resultSet.getString("NAME"),
                 resultSet.getInt("STATUS"), resultSet.getTimestamp("START_DATE"),
-                resultSet.getTimestamp("END_DATE"), null);
+                resultSet.getTimestamp("END_DATE"), adsIds);
     }
 
     @Override
@@ -133,6 +142,24 @@ public class ApplicationDaoImpl implements ApplicationDao {
 
     @Override
     public Ad updateAdById(Integer id, AdCreate adCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+
+        String sql = "INSERT INTO ADS(NAME, STATUS, PLATFORMS, ASSERT_URL) WHERE ID = " + id +
+                "VALUES(" + adCreate.getName() + ", " + adCreate.getStatus() + ", " +
+                "" + Arrays.toString(adCreate.getPlatforms()) + ", " +
+                "" + adCreate.getAsset_url() + ")";
+
+        ResultSet resultSet = getStatement().executeQuery(sql);
+
+        Array platforms = resultSet.getArray("PLATFORMS");
+        int[] platformsArray = (int[])platforms.getArray();
+
+        return new Ad(resultSet.getInt("ID"), resultSet.getString("NAME"),
+                resultSet.getInt("STATUS"), platformsArray,
+                resultSet.getString("ASSERT_URL"));
+    }
+
+    @Override
+    public Ad createAd(AdCreate adCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
 
         String sql = "INSERT INTO ADS(NAME, STATUS, PLATFORMS, ASSERT_URL) " +
                 "VALUES(" + adCreate.getName() + ", " + adCreate.getStatus() + ", " +

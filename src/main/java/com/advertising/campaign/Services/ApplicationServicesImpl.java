@@ -54,7 +54,12 @@ public class ApplicationServicesImpl implements ApplicationServices {
     }
 
     @Override
-    public Ad updateAdById(Integer id, AdCreate adCreate) {
+    public Ad updateAdById(Integer id, AdCreate adCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         return applicationDao.updateAdById(id, adCreate);
+    }
+
+    @Override
+    public Ad createAd(AdCreate adCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+        return applicationDao.createAd(adCreate);
     }
 }

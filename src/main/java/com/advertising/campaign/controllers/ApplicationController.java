@@ -62,12 +62,12 @@ public class ApplicationController extends ExceptionHandlerController {
     }
 
     @RequestMapping(value = "/ad", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String createAd() {
-        return "createAd";
+    public ResponseEntity<Ad> createAd(@RequestBody AdCreate adCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+        return new ResponseEntity<>(applicationServices.createAd(adCreate), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/ad/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Ad> updateAdById(@RequestBody AdCreate adCreate, @PathVariable("id") Integer id) {
+    public ResponseEntity<Ad> updateAdById(@RequestBody AdCreate adCreate, @PathVariable("id") Integer id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         return new ResponseEntity<>(applicationServices.updateAdById(id, adCreate), HttpStatus.OK);
     }
 

@@ -1,30 +1,26 @@
-package com.advertising.campaign.models;
+package com.advertising.campaign.models.request;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
 
-@Builder
 @Setter
 @Getter
-public class Campaing {
+public class CampaingCreate {
 
-    public Campaing(int id, String name, int status, Timestamp start_date, Timestamp end_date, int[] arrayAds) {
-        this.id = id;
+    public CampaingCreate(String name, int status, Timestamp start_date, Timestamp end_date, int[] ads) {
         this.name = name;
         this.status = status;
         this.start_date = start_date;
         this.end_date = end_date;
+        this.ads = ads;
     }
 
-    public Campaing() {
+    public CampaingCreate() {
     }
 
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private int id;
+
 
     private String name;
 

@@ -3,6 +3,7 @@ package com.advertising.campaign.controllers;
 import com.advertising.campaign.Services.ApplicationServices;
 import com.advertising.campaign.models.Ad;
 import com.advertising.campaign.models.Campaing;
+import com.advertising.campaign.models.request.CampaingCreate;
 import com.advertising.campaign.models.response.CampaingMiniResponse;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +39,8 @@ public class ApplicationController extends ExceptionHandlerController {
     }
 
     @RequestMapping(value = "/campaign", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String createCampaign() {
-        return "createCampaign";
+    public ResponseEntity<Campaing> createCampaign(@RequestBody CampaingCreate campaingCreate) {
+        return new ResponseEntity<>(applicationServices.createCampaign(campaingCreate), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/campaign/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)

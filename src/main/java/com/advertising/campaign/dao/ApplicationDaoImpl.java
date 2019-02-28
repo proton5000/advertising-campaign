@@ -2,11 +2,13 @@ package com.advertising.campaign.dao;
 
 import com.advertising.campaign.models.Ad;
 import com.advertising.campaign.models.Campaing;
+import com.advertising.campaign.models.request.CampaingCreate;
 import com.advertising.campaign.models.response.CampaingMiniResponse;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -91,5 +93,17 @@ public class ApplicationDaoImpl implements ApplicationDao {
         }
 
         return campaingMiniResponseList;
+    }
+
+    @Override
+    public Campaing createCampaign(CampaingCreate campaingCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+
+        String sql = "INSERT INTO CAMPAINGS(NAME, STATUS, START_DATE, END_DATE, ADS) " +
+                "VALUES("+campaingCreate.getName()+", "+campaingCreate.getStatus()+", " +
+                ""+campaingCreate.getStart_date()+", "+campaingCreate.getEnd_date()+", "+ Arrays.toString(campaingCreate.getAds()) +")";
+        ResultSet resultSet = getStatement().executeQuery(sql);
+
+        return new Campaing(resultSet.getInt("ID"), resultSet.getString("NAME"),
+                resultSet.getInt("STATUS"), resultSet.getTimestamp("START_DATE"), resultSet.getTimestamp("END_DATE"), null);
     }
 }

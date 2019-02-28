@@ -3,6 +3,7 @@ package com.advertising.campaign.Services;
 import com.advertising.campaign.dao.ApplicationDao;
 import com.advertising.campaign.models.Ad;
 import com.advertising.campaign.models.Campaing;
+import com.advertising.campaign.models.request.CampaingCreate;
 import com.advertising.campaign.models.response.CampaingMiniResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,10 @@ public class ApplicationServicesImpl implements ApplicationServices {
     @Override
     public List<CampaingMiniResponse> getSummaries(String orderBy, Integer skip) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         return applicationDao.getSummaries(orderBy, skip);
+    }
+
+    @Override
+    public Campaing createCampaign(CampaingCreate campaingCreate) {
+        return applicationDao.createCampaign(campaingCreate);
     }
 }

@@ -12,6 +12,14 @@ import javax.persistence.*;
 public class Ad {
 
     public Ad(int id, String name, int status, int[] platforms, String asset_url) {
+        this.id = id;
+        this.name = name;
+        this.status = status;
+        this.platforms = platforms;
+        this.asset_url = asset_url;
+    }
+
+    public Ad() {
     }
 
     @GeneratedValue(strategy = GenerationType.TABLE)

@@ -14,4 +14,6 @@ public class AdCreate {
     private int[] platforms;
 
     private String asset_url;
+
+    private int campaing;
 }

@@ -11,12 +11,13 @@ import javax.persistence.*;
 @Getter
 public class Ad {
 
-    public Ad(int id, String name, int status, int[] platforms, String asset_url) {
+    public Ad(int id, String name, int status, int[] platforms, String asset_url, int campaing) {
         this.id = id;
         this.name = name;
         this.status = status;
         this.platforms = platforms;
         this.asset_url = asset_url;
+        this.campaing = campaing;
     }
 
     public Ad() {
@@ -32,4 +33,6 @@ public class Ad {
     private int[] platforms;
 
     private String asset_url;
+
+    private int campaing;
 }

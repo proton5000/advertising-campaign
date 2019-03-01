@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,13 +27,13 @@ public class ApplicationDaoImpl implements ApplicationDao {
         return DriverManager.getConnection(DB_URL, USER, PASS);
     }
 
-    private int[] getIntArray(Array arr) throws SQLException {
+    private int[] getIntArray(java.sql.Array arr) throws SQLException {
 
-        Integer[] sqlArray = (Integer[])arr.getArray();
+        Object[] sqlArray = (Object[])arr.getArray();
         int[] arrInt = new int[sqlArray.length];
 
         for (int i = 0; i < sqlArray.length; i++) {
-            arrInt[i] = sqlArray[i];
+            arrInt[i] = Integer.parseInt(sqlArray[i].toString());
         }
 
         return arrInt;
@@ -44,18 +45,18 @@ public class ApplicationDaoImpl implements ApplicationDao {
         String sql = "SELECT * FROM ADS WHERE ID = " + id;
         Connection conn = getConnection();
         PreparedStatement preparedStatement = conn.prepareStatement(sql);
-        preparedStatement.execute();
-        ResultSet resultSet = preparedStatement.getGeneratedKeys();
+        ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
 
         return new Ad(resultSet.getInt("ID"), resultSet.getString("NAME"),
-                resultSet.getInt("STATUS"), getIntArray(resultSet.getArray("PLATFORMS")), resultSet.getString("ASSERT_URL"));
+                resultSet.getInt("STATUS"), getIntArray(resultSet.getArray("PLATFORMS")),
+                resultSet.getString("ASSERT_URL"), resultSet.getInt("CAMPAINGS"));
     }
 
     @Override
     public Campaing getCampaingById(Integer id) throws SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException {
 
-        String sql = "SELECT * FROM CAMPAINGS WHERE ID=?";
+        String sql = "SELECT * FROM CAMPAINGS WHERE ID=" + id;
         Connection conn = getConnection();
         PreparedStatement preparedStatement = conn.prepareStatement(sql);
         preparedStatement.execute();
@@ -88,19 +89,24 @@ public class ApplicationDaoImpl implements ApplicationDao {
     @Override
     public List<CampaingMiniResponse> getSummaries(String orderBy, Integer skip) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
 
-        String sql = "SELECT ID, NAME, STATUS, ADS FROM CAMPAINGS";
+        String sql = "SELECT ID, NAME, STATUS FROM CAMPAINGS";
+
+        sql += " WHERE ROWNUM BETWEEN "+ skip +" AND " + (skip + 5);
 
         if (!orderBy.isEmpty() && orderBy.trim().length() != 0) {
             sql += " ORDER BY " + orderBy;
         }
 
-        sql += " WHERE ROWNUM BETWEEN "+ skip +" AND " + skip + 5;
+//        System.out.println("sql = " + sql);
 
         Connection conn = getConnection();
         PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         preparedStatement.execute();
 
         ResultSet resultSet = preparedStatement.getGeneratedKeys();
+
+//        System.out.println("ID = " + resultSet.getInt("ID"));
+//        System.out.println("NAME = " + resultSet.getString("NAME"));
 
         List<CampaingMiniResponse> campaingMiniResponseList = new ArrayList<>();
 
@@ -132,10 +138,9 @@ public class ApplicationDaoImpl implements ApplicationDao {
         preparedStatement.execute();
 
         ResultSet resultSet = preparedStatement.getGeneratedKeys();
+        resultSet.next();
 
-        return new Campaing(resultSet.getInt("ID"), resultSet.getString("NAME"),
-                resultSet.getInt("STATUS"), resultSet.getTimestamp("START_DATE"),
-                resultSet.getTimestamp("END_DATE"), getIntArray(resultSet.getArray("ADS")));
+        return getCampaingById(resultSet.getInt("ID"));
     }
 
     @Override
@@ -149,7 +154,8 @@ public class ApplicationDaoImpl implements ApplicationDao {
         preparedStatement.setInt(2, campaingCreate.getStatus());
         preparedStatement.setTimestamp(3, campaingCreate.getStart_date());
         preparedStatement.setTimestamp(4, campaingCreate.getEnd_date());
-        preparedStatement.setArray(5, conn.createArrayOf("INTEGER", Collections.singletonList(campaingCreate.getAds()).toArray()));
+        preparedStatement.setArray(5,
+                conn.createArrayOf("INTEGER", Arrays.stream(campaingCreate.getAds()).boxed().toArray(Integer[]::new)));
         preparedStatement.setInt(6, id);
 
         preparedStatement.execute();
@@ -165,43 +171,42 @@ public class ApplicationDaoImpl implements ApplicationDao {
     @Override
     public Ad updateAdById(Integer id, AdCreate adCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
 
-        String sql = "UPDATE ADS SET NAME=?, STATUS=?, PLATFORMS=?, ASSERT_URL=? WHERE ID=?";
+        String sql = "UPDATE ADS SET NAME=?, STATUS=?, PLATFORMS=?, ASSERT_URL=?, CAMPAINGS=? WHERE ID=" + id;
 
         Connection conn = getConnection();
         PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setString(1, adCreate.getName());
         preparedStatement.setInt(2, adCreate.getStatus());
-        preparedStatement.setArray(3, conn.createArrayOf("INTEGER", Collections.singletonList(adCreate.getPlatforms()).toArray()));
+        preparedStatement.setArray(3,
+                conn.createArrayOf("INTEGER", Arrays.stream(adCreate.getPlatforms()).boxed().toArray(Integer[]::new)));
         preparedStatement.setString(4, adCreate.getAsset_url());
-        preparedStatement.setInt(5, id);
+        preparedStatement.setInt(5, adCreate.getCampaing());
 
         preparedStatement.execute();
         ResultSet resultSet = preparedStatement.getGeneratedKeys();
         resultSet.next();
 
-        return new Ad(resultSet.getInt("ID"), resultSet.getString("NAME"),
-                resultSet.getInt("STATUS"), getIntArray(resultSet.getArray("PLATFORMS")),
-                resultSet.getString("ASSERT_URL"));
+        return getAdById(id);
     }
 
     @Override
     public Ad createAd(AdCreate adCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
 
-        String sql = "INSERT INTO ADS(NAME, STATUS, PLATFORMS, ASSERT_URL) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO ADS(NAME, STATUS, PLATFORMS, ASSERT_URL, CAMPAINGS) VALUES (?, ?, ?, ?, ?)";
 
         Connection conn = getConnection();
         PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setString(1, adCreate.getName());
         preparedStatement.setInt(2, adCreate.getStatus());
-        preparedStatement.setArray(3, conn.createArrayOf("INTEGER", Collections.singletonList(adCreate.getPlatforms()).toArray()));
+        preparedStatement.setArray(3,
+                conn.createArrayOf("INTEGER", Arrays.stream(adCreate.getPlatforms()).boxed().toArray(Integer[]::new)));
         preparedStatement.setString(4, adCreate.getAsset_url());
+        preparedStatement.setInt(5, adCreate.getCampaing());
 
         preparedStatement.execute();
         ResultSet resultSet = preparedStatement.getGeneratedKeys();
         resultSet.next();
 
-        return new Ad(resultSet.getInt("ID"), resultSet.getString("NAME"),
-                resultSet.getInt("STATUS"), getIntArray(resultSet.getArray("PLATFORMS")),
-                resultSet.getString("ASSERT_URL"));
+        return getAdById(resultSet.getInt("ID"));
     }
 }

@@ -69,7 +69,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
 
     @Override
     public void deleteAdById(Integer id) throws ClassNotFoundException, SQLException, IllegalAccessException, InstantiationException {
-        String sql = "DELETE FROM ADS WHERE ID=?";
+        String sql = "DELETE FROM ADS WHERE ID=" + id;
 
         Connection conn = getConnection();
         PreparedStatement preparedStatement = conn.prepareStatement(sql);
@@ -78,7 +78,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
 
     @Override
     public void deleteCampaignById(Integer id) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
-        String sql = "DELETE FROM CAMPAINGS WHERE ID=?";
+        String sql = "DELETE FROM CAMPAINGS WHERE ID=" + id;
 
         Connection conn = getConnection();
         PreparedStatement preparedStatement = conn.prepareStatement(sql);

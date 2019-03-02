@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @Getter
 public class Campaing {
 
-    public Campaing(int id, String name, int status, Timestamp start_date, Timestamp end_date, int[] arrayAds) {
+    public Campaing(int id, String name, int status, Timestamp start_date, Timestamp end_date) {
         this.id = id;
         this.name = name;
         this.status = status;
@@ -33,6 +33,4 @@ public class Campaing {
     private Timestamp start_date;
 
     private Timestamp end_date;
-
-    private int[] ads;
 }

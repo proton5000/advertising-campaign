@@ -39,6 +39,17 @@ public class ApplicationDaoImpl implements ApplicationDao {
         return arrInt;
     }
 
+    private Integer getCountOfAd(Integer campaingId) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+
+        String sql = "SELECT COUNT(*) FROM ADS WHERE CAMPAINGS=" + campaingId;
+        Connection conn = getConnection();
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+
+        return resultSet.getInt(1);
+    }
+
     @Override
     public Ad getAdById(Integer id) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
 
@@ -97,25 +108,19 @@ public class ApplicationDaoImpl implements ApplicationDao {
             sql += " ORDER BY " + orderBy;
         }
 
-//        System.out.println("sql = " + sql);
-
         Connection conn = getConnection();
-        PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        preparedStatement.execute();
 
-        ResultSet resultSet = preparedStatement.getGeneratedKeys();
-
-//        System.out.println("ID = " + resultSet.getInt("ID"));
-//        System.out.println("NAME = " + resultSet.getString("NAME"));
+        Statement statement = conn.createStatement();
+        ResultSet rs = statement.executeQuery(sql);
 
         List<CampaingMiniResponse> campaingMiniResponseList = new ArrayList<>();
 
-        while (resultSet.next()) {
+        while (rs.next()) {
 
             CampaingMiniResponse campaingMiniResponse =
-                    new CampaingMiniResponse(resultSet.getInt("ID"),
-                            resultSet.getString("NAME"), resultSet.getInt("STATUS"),
-                            getIntArray(resultSet.getArray("ADS")).length);
+                    new CampaingMiniResponse(rs.getInt("ID"),
+                            rs.getString("NAME"), rs.getInt("STATUS"),
+                            getCountOfAd(rs.getInt("ID")));
 
             campaingMiniResponseList.add(campaingMiniResponse);
         }

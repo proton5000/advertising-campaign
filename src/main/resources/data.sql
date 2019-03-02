@@ -14,4 +14,4 @@ INSERT INTO ADS
 VALUES (3, 'ad_1', 0, (0, 1, 2), 'localhost', 2);
 
 INSERT INTO ADS
-VALUES (4, 'ad_1', 0, (0, 1, 2), 'localhost', 2);
+VALUES (4, 'ad_2', 0, (0, 1, 2), 'localhost', 2);

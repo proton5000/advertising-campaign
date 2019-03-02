@@ -30,7 +30,7 @@ ID | NAME | STATUS | PLATFORMS | ASSERT_URL | CAMPAINGS
 1 | ad_1 | 0 | (0, 1, 2) | localhost | 1
 2 | ad_2 | 0 | (0, 1, 2) | localhost | 1
 3 | ad_1 | 0 | (0, 1, 2) | localhost | 2
-4 | ad_1 | 0 | (0, 1, 2) | localhost | 2
+4 | ad_2 | 0 | (0, 1, 2) | localhost | 2
 
 Прошу обратить внимание как я связал рекламные кампании и рекламы между собой.
 

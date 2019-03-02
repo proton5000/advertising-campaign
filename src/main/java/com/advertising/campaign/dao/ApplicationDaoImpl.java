@@ -41,6 +41,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
     private Integer getCountOfAd(Integer campaingId) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
 
         String sql = "SELECT COUNT(*) FROM ADS WHERE CAMPAINGS=?";
+
         Connection conn = getConnection();
         PreparedStatement preparedStatement = conn.prepareStatement(sql);
         preparedStatement.setInt(1, campaingId);
@@ -54,6 +55,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
     public Ad getAdById(Integer id) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
 
         String sql = "SELECT * FROM ADS WHERE ID=?";
+
         Connection conn = getConnection();
         PreparedStatement preparedStatement = conn.prepareStatement(sql);
         preparedStatement.setInt(1, id);
@@ -69,6 +71,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
     public Campaing getCampaingById(Integer id) throws SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException {
 
         String sql = "SELECT * FROM CAMPAINGS WHERE ID=?";
+
         Connection conn = getConnection();
         PreparedStatement preparedStatement = conn.prepareStatement(sql);
         preparedStatement.setInt(1, id);
@@ -82,6 +85,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
 
     @Override
     public void deleteAdById(Integer id) throws ClassNotFoundException, SQLException, IllegalAccessException, InstantiationException {
+
         String sql = "DELETE FROM ADS WHERE ID=?";
 
         Connection conn = getConnection();
@@ -92,6 +96,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
 
     @Override
     public void deleteCampaignById(Integer id) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
+
         String sql = "DELETE FROM CAMPAINGS WHERE ID=?";
 
         Connection conn = getConnection();
@@ -164,7 +169,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
 
         preparedStatement.setInt(5, id);
 
-        preparedStatement.execute();
+        preparedStatement.executeUpdate();
 
         return getCampaingById(id);
     }

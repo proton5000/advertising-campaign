@@ -1,4 +1,4 @@
-package com.advertising.campaign.Services;
+package com.advertising.campaign.services;
 
 import com.advertising.campaign.dao.ApplicationDao;
 import com.advertising.campaign.models.Ad;

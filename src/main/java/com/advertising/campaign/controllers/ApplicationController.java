@@ -1,6 +1,6 @@
 package com.advertising.campaign.controllers;
 
-import com.advertising.campaign.Services.ApplicationServices;
+import com.advertising.campaign.services.ApplicationServices;
 import com.advertising.campaign.models.Ad;
 import com.advertising.campaign.models.Campaing;
 import com.advertising.campaign.models.request.AdCreate;

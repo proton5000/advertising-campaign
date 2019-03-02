@@ -39,8 +39,8 @@ public class ApplicationServicesImpl implements ApplicationServices {
     }
 
     @Override
-    public List<CampaingMiniResponse> getSummaries(String orderBy, Integer skip) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
-        return applicationDao.getSummaries(orderBy, skip);
+    public List<CampaingMiniResponse> getSummaries(String orderBy, Integer page) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+        return applicationDao.getSummaries(orderBy, page);
     }
 
     @Override

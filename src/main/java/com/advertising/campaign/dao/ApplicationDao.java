@@ -18,7 +18,7 @@ public interface ApplicationDao {
 
     void deleteCampaignById(Integer id) throws ClassNotFoundException, SQLException, IllegalAccessException, InstantiationException;
 
-    List<CampaingMiniResponse> getSummaries(String orderBy, Integer skip) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException;
+    List<CampaingMiniResponse> getSummaries(String orderBy, Integer page) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException;
 
     Campaing createCampaign(CampaingCreate campaingCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException;
 

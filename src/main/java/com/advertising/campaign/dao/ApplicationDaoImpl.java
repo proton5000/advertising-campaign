@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -102,11 +101,11 @@ public class ApplicationDaoImpl implements ApplicationDao {
     }
 
     @Override
-    public List<CampaingMiniResponse> getSummaries(String orderBy, Integer skip) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
+    public List<CampaingMiniResponse> getSummaries(String orderBy, Integer page) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
 
         String sql = "SELECT ID, NAME, STATUS FROM CAMPAINGS";
 
-        sql += " WHERE ROWNUM BETWEEN "+ skip +" AND " + (skip + 5);
+        sql += " WHERE ROWNUM BETWEEN "+ page +" AND " + (page + 5);
 
         if (!orderBy.isEmpty() && orderBy.trim().length() != 0) {
             sql += " ORDER BY " + orderBy;
@@ -167,12 +166,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
 
         preparedStatement.execute();
 
-        ResultSet resultSet = preparedStatement.getGeneratedKeys();
-        resultSet.next();
-
-        return new Campaing(resultSet.getInt("ID"), resultSet.getString("NAME"),
-                resultSet.getInt("STATUS"), resultSet.getTimestamp("START_DATE"),
-                resultSet.getTimestamp("END_DATE"));
+        return getCampaingById(id);
     }
 
     @Override
@@ -181,7 +175,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
         String sql = "UPDATE ADS SET NAME=?, STATUS=?, PLATFORMS=?, ASSERT_URL=?, CAMPAINGS=? WHERE ID=?";
 
         Connection conn = getConnection();
-        PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
         preparedStatement.setString(1, adCreate.getName());
         preparedStatement.setInt(2, adCreate.getStatus());
         preparedStatement.setArray(3,
@@ -190,9 +184,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
         preparedStatement.setInt(5, adCreate.getCampaing());
         preparedStatement.setInt(6, id);
 
-        preparedStatement.execute();
-        ResultSet resultSet = preparedStatement.getGeneratedKeys();
-        resultSet.next();
+        preparedStatement.executeUpdate();
 
         return getAdById(id);
     }

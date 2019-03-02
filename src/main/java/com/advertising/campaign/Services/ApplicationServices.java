@@ -18,7 +18,7 @@ public interface ApplicationServices {
 
     void deleteCampaignById(Integer id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException;
 
-    List<CampaingMiniResponse> getSummaries(String orderBy, Integer skip) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException;
+    List<CampaingMiniResponse> getSummaries(String orderBy, Integer page) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException;
 
     Campaing createCampaign(CampaingCreate campaingCreate) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException;
 

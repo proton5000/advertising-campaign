@@ -27,11 +27,11 @@ public class ApplicationController extends ExceptionHandlerController {
 
     @RequestMapping(value = "/summaries", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CampaingMiniResponse>> getSummaries(
-            @RequestParam(value = "skip", required = false, defaultValue = "1") Integer skip,
-            @RequestParam(value = "orderBy", required = false, defaultValue = "NAME DESC") String orderBy
+            @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+            @RequestParam(value = "orderBy", required = false, defaultValue = "NAME ASC") String orderBy
     ) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
 
-        return new ResponseEntity<>(applicationServices.getSummaries(orderBy, skip), HttpStatus.OK);
+        return new ResponseEntity<>(applicationServices.getSummaries(orderBy, page), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/campaign/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
